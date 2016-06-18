@@ -1,0 +1,10 @@
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\Dal.Interfaces.dll.config
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\Dal.Interfaces.dll
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\Dal.Interfaces.pdb
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\EntityFramework.dll
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\EntityFramework.xml
+D:\Projects\СilPlayground\Dal.Interfaces\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\СilPlayground\Dal.Interfaces\obj\Debug\DAL.Interfaces.csprojResolveAssemblyReference.cache
+D:\Projects\СilPlayground\Dal.Interfaces\obj\Debug\Dal.Interfaces.dll
+D:\Projects\СilPlayground\Dal.Interfaces\obj\Debug\Dal.Interfaces.pdb

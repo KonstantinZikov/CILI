@@ -1,0 +1,14 @@
+D:\Projects\СilPlayground\DAL\bin\Debug\DAL.dll.config
+D:\Projects\СilPlayground\DAL\bin\Debug\DAL.dll
+D:\Projects\СilPlayground\DAL\bin\Debug\DAL.pdb
+D:\Projects\СilPlayground\DAL\bin\Debug\Dal.Interfaces.dll
+D:\Projects\СilPlayground\DAL\bin\Debug\EntityFramework.dll
+D:\Projects\СilPlayground\DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\СilPlayground\DAL\bin\Debug\ORM.dll
+D:\Projects\СilPlayground\DAL\bin\Debug\Dal.Interfaces.pdb
+D:\Projects\СilPlayground\DAL\bin\Debug\ORM.pdb
+D:\Projects\СilPlayground\DAL\bin\Debug\EntityFramework.xml
+D:\Projects\СilPlayground\DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\СilPlayground\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\Projects\СilPlayground\DAL\obj\Debug\DAL.dll
+D:\Projects\СilPlayground\DAL\obj\Debug\DAL.pdb

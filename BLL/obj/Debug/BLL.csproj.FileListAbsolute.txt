@@ -1,0 +1,17 @@
+D:\Projects\СilPlayground\BLL\bin\Debug\BLL.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\BLL.pdb
+D:\Projects\СilPlayground\BLL\bin\Debug\BLL.Interface.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\CilInterpreter.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\BLL.Interface.pdb
+D:\Projects\СilPlayground\BLL\bin\Debug\CilInterpreter.pdb
+D:\Projects\СilPlayground\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Projects\СilPlayground\BLL\obj\Debug\BLL.dll
+D:\Projects\СilPlayground\BLL\obj\Debug\BLL.pdb
+D:\Projects\СilPlayground\BLL\bin\Debug\DAL.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\Dal.Interfaces.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\EntityFramework.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\ORM.dll
+D:\Projects\СilPlayground\BLL\bin\Debug\Dal.Interfaces.pdb
+D:\Projects\СilPlayground\BLL\bin\Debug\DAL.pdb
+D:\Projects\СilPlayground\BLL\bin\Debug\EntityFramework.xml
+D:\Projects\СilPlayground\BLL\bin\Debug\ORM.pdb

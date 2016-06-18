@@ -1,0 +1,5 @@
+D:\Projects\СilPlayground\BLL.Interface\bin\Debug\BLL.Interface.dll
+D:\Projects\СilPlayground\BLL.Interface\bin\Debug\BLL.Interface.pdb
+D:\Projects\СilPlayground\BLL.Interface\obj\Debug\BLL.Interface.dll
+D:\Projects\СilPlayground\BLL.Interface\obj\Debug\BLL.Interface.pdb
+D:\Projects\СilPlayground\BLL.Interface\obj\Debug\BLL.Interface.csprojResolveAssemblyReference.cache

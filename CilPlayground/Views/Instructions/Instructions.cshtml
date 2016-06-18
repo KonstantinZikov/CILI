@@ -1,0 +1,173 @@
+﻿@model List<CilPlayground.Models.InstructionViewModel>
+
+@{
+    ViewBag.Title = "Istructions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .instructionRow{
+        margin: 5px;
+        border-width:4px;
+        border-style:solid;
+        border-color:darkgrey;
+        background-color:#202020;
+    }
+    .instructionCol{
+        border-width:0;
+        border-right-width:4px;
+        border-style:inherit;
+        border-color: inherit;
+        background-color:#202020;
+    }
+
+    .buttonCol{
+        padding:0;
+    }
+
+    .supported{
+        border-color:aquamarine;
+    }
+
+    .unsupported{
+        border-color:coral;
+    }
+</style>
+
+<div class="alert alert-danger fade in">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Error!</strong> A problem has been occurred while submitting your data.
+</div>
+
+<div class="container body-content" style="padding-right:0;padding-left:0">
+    <h2>Istructions</h2>
+    <button class="btn ciliButton">Add new</button>
+    <div class="row instructionRow">
+        <div class="col-md-3 instructionCol">Instruction</div>
+        <div class="col-md-9">Description</div>
+    </div>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        string sup = "unsupported";
+            if (Model[i].IsSupported)
+            {
+                sup = "supported";
+            }
+        
+        <div class="row instructionRow @sup" data-id="@i">          
+            <div class="col-md-3 instructionCol">@Model[i].Name</div>
+            <div class="col-md-8 instructionCol">@Model[i].Description</div>
+        </div>
+    }
+    <div class="row instructionRow supported" data-id="999">
+        <div class="col-md-3 instructionCol Name">
+            <span style="min-width:100%; border-style:none; background-color:#202020;">add</span>
+        </div>
+        <div class="col-md-8 instructionCol Description">
+            <span style="min-width:100%; border-style:none; background-color:#202020;">Add two values, returning a new value. Need two numbers at the stack.</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $.fn.changeElementType = function (newType) {
+            var attrs = {};
+
+            $.each(this[0].attributes, function (idx, attr) {
+                attrs[attr.nodeName] = attr.nodeValue;
+            });
+
+            this.replaceWith(function () {
+                return $("<" + newType + "/>", attrs).append($(this).contents());
+            });
+        };
+    })(jQuery);
+
+    var nameStorage;
+    var descriptionStorage;
+    
+    $(".instructionRow").click(
+    function (e) {
+        if ($(this).hasClass("canceled"))
+        {
+            $(this).removeClass("canceled");
+        }
+        else
+        if ($(".selected").size() == 0) {
+            nameStorage = $(this).children(".Name").children().val();
+            descriptionStorage = $(this).children(".Description").children().val();
+            $(this).addClass("selected");
+            $(this).append('<div class="col-md-1 buttonCol">' +
+                '<button class="btn ciliButton" id="deleteButton">Save</button>' +
+                '<button class="btn ciliButton" id="cancelButton">Cancel</button>' +
+                '<button class="btn ciliButton" id="saveButton">Delete</button>'+
+                '<button class="btn ciliButton" id="supportedButton">Supported</button></div>');
+            $(this).children(".Name").css({ padding: "0" });
+            $(this).children(".Description").css({ padding: "0" });
+            $(this).children(".Name").children().changeElementType("textarea");
+            $(this).children(".Description").children().changeElementType("textarea");
+
+            $("#cancelButton").click(function () {
+                Cancel($(this).parent().parent());
+            })
+            $("#saveButton").click(function () {
+                Cancel($(this).parent().parent());
+            })
+            $("#deleteButton").click(function () {
+                Cancel($(this).parent().parent());
+            })
+
+            $("#supportedButton").click(function () {
+                ChangeSupported($(this).parent().parent());
+            })
+        }
+    });
+
+    function Cancel(row) {
+        row.removeClass("selected");
+        row.addClass("canceled");
+        row.children(".buttonCol").remove();
+        row.children(".Name").css({ padding: "" });
+        row.children(".Description").css({ padding: "" });
+        row.children(".Name").children().changeElementType("span");
+        row.children(".Name").children().val(nameStorage);       
+        row.children(".Description").children().changeElementType("span");
+        row.children(".Description").children().val(descriptionStorage);
+    }
+
+    function ChangeSupported(row) {
+        row.toggleClass("supported");
+        row.toggleClass("unsupported");
+    }
+
+    function Save(row) {
+        var model = new Object();
+        model.Id = row.attr("data-id");
+        model.Name = row.children(".Name").children().val();
+        model.Description = row.children(".Description").children().val();
+        model.IsSupported = row.hasClass("supported");
+        $.ajax({
+            url: "/Instructions/Save",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            success: function (result) {
+                if (result.success)
+                {
+                    location.reload();
+                }
+                else {
+                    message = "Server error:("
+                    if(result != undefined)
+                        message = result.answer;
+                    alert(message);
+                }
+            }
+        });
+    }
+
+    function Delete(row) {
+
+    }
+
+</script>

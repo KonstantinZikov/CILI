@@ -1,0 +1,5 @@
+D:\Projects\СilPlayground\CilInterpreter\bin\Debug\CilInterpreter.dll
+D:\Projects\СilPlayground\CilInterpreter\bin\Debug\CilInterpreter.pdb
+D:\Projects\СilPlayground\CilInterpreter\obj\Debug\CilInterpreter.dll
+D:\Projects\СilPlayground\CilInterpreter\obj\Debug\CilInterpreter.pdb
+D:\Projects\СilPlayground\CilInterpreter\obj\Debug\CilInterpreter.csprojResolveAssemblyReference.cache

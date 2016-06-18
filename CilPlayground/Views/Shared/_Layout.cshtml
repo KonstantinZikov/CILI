@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")    
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Styles.Render("~/Content/Modals.css")
+    @Styles.Render("~/Content/Elements.css")
+</head>
+<body style="background-color:#252525; color:white">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#3B1255">        
+        <div class="container-fluid">           
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>  
+            <h4 class="navbar-text" style="color:white">CIL Interpreter</h4>         
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Interpreter", "Index", "Interpreter", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Try-page", "Index", "Try", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("My Codes", "Index", "UserCodes", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Examples", "Index", "Examples", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Controls", "Index", "Admin", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Instructions and directives", "Index", "Instructions", new { area = "" }, new { @class = "navbar-brand" })</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" class="navbar-brand" data-toggle="modal" data-target="#signInModal">Sign In</a></li>
+                    <li><a href="#" class="navbar-brand" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
+                </ul>
+            </div>           
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
+            </div>
+        </div>
+    </nav>
+    @Html.Partial("Modals/SignIn")
+    @Html.Partial("Modals/SignUp")    
+    @RenderBody()        
+    <footer class="navbar-fixed-bottom" style="background-color:#006fc0; color:white">
+        <p class="text-center">&copy; @DateTime.Now.Year - CILI</p>
+    </footer>
+</body>
+</html>

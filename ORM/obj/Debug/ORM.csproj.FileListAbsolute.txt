@@ -1,0 +1,10 @@
+D:\Projects\СilPlayground\ORM\bin\Debug\ORM.dll.config
+D:\Projects\СilPlayground\ORM\bin\Debug\ORM.dll
+D:\Projects\СilPlayground\ORM\bin\Debug\ORM.pdb
+D:\Projects\СilPlayground\ORM\bin\Debug\EntityFramework.dll
+D:\Projects\СilPlayground\ORM\bin\Debug\EntityFramework.SqlServer.dll
+D:\Projects\СilPlayground\ORM\bin\Debug\EntityFramework.xml
+D:\Projects\СilPlayground\ORM\bin\Debug\EntityFramework.SqlServer.xml
+D:\Projects\СilPlayground\ORM\obj\Debug\ORM.csprojResolveAssemblyReference.cache
+D:\Projects\СilPlayground\ORM\obj\Debug\ORM.dll
+D:\Projects\СilPlayground\ORM\obj\Debug\ORM.pdb
