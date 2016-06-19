@@ -1,12 +1,5 @@
 ﻿namespace CilPlayground.Models
 {
-    public enum Type
-    {
-        Instruction = 1,
-        Directive,
-        KeyWord
-    }
-
     public class InstructionViewModel
     {
         public int Id { get; set; }

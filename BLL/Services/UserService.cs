@@ -1,50 +1,66 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BLL.Interface.Entities;
+﻿using BLL.Interface.Entities;
 using BLL.Interface.Services;
-using BLL.Mappers;
 using DAL.Interfaces.Repository;
 using DAL.Interfaces.DTO;
+using System;
+using BLL.Interface.Exceptions;
+using System.Net.Mail;
 
 namespace BLL.Services
 {
-    public class UserService : IUserService
+    public class UserService : BaseService<UserEntity, DalUser> , IUserService
     {
-        private readonly IUnitOfWork uow;
-        private readonly IRepository<DalUser> userRepository;
+        public UserService(IUnitOfWork unitOfWork, IRepository<DalUser> repository) 
+            : base(unitOfWork,repository){ }
 
-        public UserService(IUnitOfWork uow, IRepository<DalUser> repository)
+        protected override void Check(UserEntity entity)
         {
-            this.uow = uow;
-            userRepository = repository;
+            if (entity.Id < 0)
+                throw new ServiceException("Id must be greater then zero.");
+            if (entity.Name.Length < 4)
+                throw new ServiceException("Name must contain at least four characters.");
+            if (entity.RegistrationTime < new DateTime(2016,06,01))
+                throw new ServiceException("RegistrationTime must be greater then 2016.06.01");
+            if (entity.RoleId < 0)
+                throw new ServiceException("RoleId must be greater then zero.");
+
+            try
+            {
+                new MailAddress(entity.Mail);
+            }
+            catch (FormatException)
+            {
+                throw new ServiceException("e-Mail doesn't match the format.");
+            }
+
         }
 
-        public UserEntity GetUserEntity(int id)
+        protected override UserEntity ToBll(DalUser user)
         {
-            return userRepository.GetById(id).ToBllUser();
-        }
-        
-        public IEnumerable<UserEntity> GetAllUserEntities()
-        {
-            return userRepository.GetAll().Select(user => user.ToBllUser());
-        }
-
-        public void CreateUser(UserEntity user)
-        {
-            userRepository.Create(user.ToDalUser());
-            uow.Commit();
+            return new UserEntity
+            {
+                Id = user.Id,
+                Mail = user.Mail,
+                Name = user.Name,
+                Password = user.Password,
+                Salt = user.Salt,
+                RegistrationTime = user.RegistrationTime,
+                RoleId = user.RoleId
+            };
         }
 
-        public void DeleteUser(UserEntity user)
+        protected override DalUser ToDal(UserEntity user)
         {
-            userRepository.Delete(user.ToDalUser());
-            uow.Commit();
-        }
-
-        public void Update(UserEntity user)
-        {
-            userRepository.Update(user.ToDalUser());
-            uow.Commit();
+            return new DalUser
+            {
+                Id = user.Id,
+                Mail = user.Mail,
+                Name = user.Name,
+                Password = user.Password,
+                Salt = user.Salt,
+                RegistrationTime = user.RegistrationTime,
+                RoleId = user.RoleId
+            };
         }
     }
 }

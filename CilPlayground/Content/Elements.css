@@ -1,5 +1,6 @@
 ﻿.ciliCodeBox{
     border-radius:0;
+    border-style:none;
     background-color:#171717;
     color:white;
     font-family:Consolas;
@@ -7,6 +8,7 @@
 }
 
 .ciliConsole{
+    border-style:none;
     border-radius:0;
     background-color:black;
     color:white;

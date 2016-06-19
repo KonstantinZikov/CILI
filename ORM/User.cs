@@ -18,6 +18,9 @@ namespace ORM
         public string Password { get; set; }
 
         [Required]
+        public string Salt { get; set; }
+
+        [Required]
         public DateTime RegistrationTime { get; set; }
 
         public int RoleId { get; set; }

@@ -26,5 +26,29 @@ namespace CilPlayground.Infrastructure.Mappers
                 IsSupported = model.IsSupported
             };
         }
+
+        public static UserViewModel ToModel(this UserEntity entity)
+        {
+            return new UserViewModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Mail = entity.Mail,
+                RegistrationTime = entity.RegistrationTime,
+                RoleId = entity.RoleId
+            };
+        }
+
+        public static UserEntity ToBll(this UserViewModel model)
+        {
+            return new UserEntity()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Mail = model.Mail,
+                RegistrationTime = model.RegistrationTime,
+                RoleId = model.RoleId
+            };
+        }
     }
 }

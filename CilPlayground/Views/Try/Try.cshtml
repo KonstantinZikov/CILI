@@ -8,26 +8,25 @@
 @Scripts.Render("~/scripts/Cili/codeBox.js")
 @Styles.Render("~/Content/Elements.css")
 
-<div class="container-fluid" style="background-color:#303030; color:white;
- border-bottom:1px; border-bottom-color:lightblue; border-bottom-style:solid; margin-top:1px;
+<div class="container-fluid" style="background-color:#303030; color:white; margin-top:1px;
  padding-bottom:3px; padding-top:3px">    
         <span style="margin-left:20px">Status:</span> <span id="status">Stopped</span>   
         <img id="playButton" src='~/Content/Images/play-button.png' width='24' height='24' style='padding-bottom:3px; margin-left:10px; cursor:pointer'/>
         
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding:20px; padding-left:50px; padding-right:50px;">
     <div class="row">
-        <div class="col-sm-6" style="padding:0; height:100%">
+        <div class="col-sm-6" style="padding:5px; height:100%">
             <div class="form-group" style="padding:0px; margin:0">
                 <textarea style="min-width: 100%" class="form-control ciliCodeBox" rows="25" id="code" name="code"
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
             </div>
             <button class="btn ciliButton" style="width:100%">Next example</button>
         </div>
-        <div class="col-sm-6" style="padding:0; height:100%">
+        <div class="col-sm-6" style="padding:5px; height:100%">
             <div class="form-group" style="padding:0px; margin:0">
-                <div style="height:300px; padding:10px; border: 1px solid white">Description: ...</div>
+                <div style="height:300px; padding:10px; background-color:#151515">Description: ...</div>
                 <textarea style="min-width: 100%; background-color:black" class="form-control ciliConsole" rows="10" id="output" name="output"
                           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                           readonly="readonly"></textarea>

@@ -3,7 +3,6 @@ using DAL.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using BLL.Interface.Exceptions;
 
 namespace BLL.Services
@@ -11,20 +10,7 @@ namespace BLL.Services
     public abstract class BaseService<BllType,DalType> 
         where DalType : IEntity
     {
-        protected Expression<Func<DalType, BllType>> ToBll;
-        
-
-        Func<DalType, BllType> _toBllCompiled;
-        Func<DalType, BllType> ToBllCompiled
-        {
-            get
-            {
-                if (_toBllCompiled == null)
-                    _toBllCompiled = ToBll.Compile();
-                return _toBllCompiled;
-            }
-        }
-
+        protected abstract BllType ToBll(DalType dal);
         protected abstract DalType ToDal(BllType bll);
         protected abstract void Check(BllType entity);
 
@@ -38,7 +24,7 @@ namespace BLL.Services
         }
 
         public BllType Get(int id)
-            => ToBllCompiled(repository.GetById(id));
+            => ToBll(repository.GetById(id));
 
         public IEnumerable<BllType> GetAllEntities()
             => repository.GetAll().Select(ToBll);

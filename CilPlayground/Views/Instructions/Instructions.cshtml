@@ -6,18 +6,11 @@
 }
 <style>
     .instructionRow{
-        margin: 5px;
-        border-width:4px;
-        border-style:solid;
-        border-color:darkgrey;
-        background-color:#202020;
+        margin: 0px;
+        margin-bottom:8px;
     }
     .instructionCol{
-        border-width:0;
-        border-right-width:4px;
-        border-style:inherit;
-        border-color: inherit;
-        background-color:#202020;
+        padding:15px;
     }
 
     .buttonCol{
@@ -25,25 +18,22 @@
     }
 
     .supported{
-        border-color:aquamarine;
+        background-color:#005000;
     }
 
     .unsupported{
-        border-color:coral;
+        background-color:#500000;
     }
 </style>
 
-<div class="alert alert-danger fade in">
-    <a href="#" class="close" data-dismiss="alert">&times;</a>
-    <strong>Error!</strong> A problem has been occurred while submitting your data.
-</div>
 
-<div class="container body-content" style="padding-right:0;padding-left:0">
+<div class="container body-content" style="padding:20px; background-color:#303030; margin-top:40px" >
     <h2>Istructions</h2>
-    <button class="btn ciliButton">Add new</button>
-    <div class="row instructionRow">
-        <div class="col-md-3 instructionCol">Instruction</div>
-        <div class="col-md-9">Description</div>
+    <h5>This is a list of the instructions of the Common Intermediate Language. The green color indicates the instructions that are supported.</h5>
+    <button class="btn ciliButton" id="addButton">Add new</button>
+    <div class="row" id="tableHeader">
+        <div class="col-md-3"><h4>Instruction</h4></div>
+        <div class="col-md-9"><h4>Description</h4></div>
     </div>
     @for (int i = 0; i < Model.Count; i++)
     {
@@ -53,19 +43,16 @@
                 sup = "supported";
             }
         
-        <div class="row instructionRow @sup" data-id="@i">          
-            <div class="col-md-3 instructionCol">@Model[i].Name</div>
-            <div class="col-md-8 instructionCol">@Model[i].Description</div>
+        <div class="row instructionRow @sup" data-id="@Model[i].Id">          
+            <div class="col-md-3 instructionCol Name">
+                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model[i].Name</div>       
+            </div>
+            <div class="col-md-9 instructionCol Description">
+                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model[i].Description</div>
+            </div>
         </div>
     }
-    <div class="row instructionRow supported" data-id="999">
-        <div class="col-md-3 instructionCol Name">
-            <span style="min-width:100%; border-style:none; background-color:#202020;">add</span>
-        </div>
-        <div class="col-md-8 instructionCol Description">
-            <span style="min-width:100%; border-style:none; background-color:#202020;">Add two values, returning a new value. Need two numbers at the stack.</span>
-        </div>
-    </div>
+
 </div>
 
 <script type="text/javascript">
@@ -83,56 +70,106 @@
         };
     })(jQuery);
 
+    function BindEvents() {
+        $("#cancelButton").click(function () {
+            Cancel($(this).parent().parent());
+        });
+        $("#saveButton").click(function () {
+            Save($(this).parent().parent());
+        });
+        $("#deleteButton").click(function () {
+            deletingRow = $(this).parent().parent();
+            $("#deleteModal").modal();
+        });
+
+        $("#supportedButton").click(function () {
+            ChangeSupported($(this).parent().parent());
+        });
+    }
+
+    var deletingRow;
+
+    $("#deleteSubmitButton").click(function () {
+        Delete();
+    });
+
+    var conditionStorage = new Object();
     var nameStorage;
     var descriptionStorage;
     
+    var added = false;
+    $("#addButton").click(       
+        function () {
+            if (added == false) {
+                added = true;
+                $("#tableHeader").after(
+                    '<div class="row instructionRow supported selected add" data-id="0">' +
+                        '<div class="col-md-3 instructionCol Name">' +
+                            '<textarea style="min-width:100%; padding:0; border-style:none; background-color:inherit;">Name</textarea>' +
+                        '</div>' +
+                        '<div class="col-md-8 instructionCol Description">' +
+                            '<textarea style="min-width:100%; padding:0; border-style:none; background-color:inherit;">Descritpion</textarea>' +
+                        '</div>' +
+                        '<div class="col-md-1 buttonCol">' +
+                            '<button class="btn ciliButton" id="saveButton">Create</button>' +
+                            '<button class="btn ciliButton" id="cancelButton">Cancel</button>' +
+                            '<button class="btn ciliButton" id="supportedButton">Supported</button>' +
+                        '</div>' +
+                     '</div>');
+                BindEvents();
+            }
+    });
+
+
     $(".instructionRow").click(
-    function (e) {
+    function () {
         if ($(this).hasClass("canceled"))
         {
             $(this).removeClass("canceled");
         }
         else
         if ($(".selected").size() == 0) {
-            nameStorage = $(this).children(".Name").children().val();
-            descriptionStorage = $(this).children(".Description").children().val();
+            conditionStorage.name = $(this).children(".Name").children().val();
+            conditionStorage.description = $(this).children(".Description").children().val();
+            conditionStorage.supported = $(this).hasClass("supported");
             $(this).addClass("selected");
             $(this).append('<div class="col-md-1 buttonCol">' +
-                '<button class="btn ciliButton" id="deleteButton">Save</button>' +
+                '<button class="btn ciliButton" id="saveButton">Save</button>' +
                 '<button class="btn ciliButton" id="cancelButton">Cancel</button>' +
-                '<button class="btn ciliButton" id="saveButton">Delete</button>'+
+                '<button class="btn ciliButton" id="deleteButton">Delete</button>'+
                 '<button class="btn ciliButton" id="supportedButton">Supported</button></div>');
-            $(this).children(".Name").css({ padding: "0" });
-            $(this).children(".Description").css({ padding: "0" });
+            $(this).children(".Description").removeClass("col-md-9").addClass("col-md-8");
             $(this).children(".Name").children().changeElementType("textarea");
             $(this).children(".Description").children().changeElementType("textarea");
-
-            $("#cancelButton").click(function () {
-                Cancel($(this).parent().parent());
-            })
-            $("#saveButton").click(function () {
-                Cancel($(this).parent().parent());
-            })
-            $("#deleteButton").click(function () {
-                Cancel($(this).parent().parent());
-            })
-
-            $("#supportedButton").click(function () {
-                ChangeSupported($(this).parent().parent());
-            })
+            BindEvents();
         }
     });
 
     function Cancel(row) {
-        row.removeClass("selected");
-        row.addClass("canceled");
-        row.children(".buttonCol").remove();
-        row.children(".Name").css({ padding: "" });
-        row.children(".Description").css({ padding: "" });
-        row.children(".Name").children().changeElementType("span");
-        row.children(".Name").children().val(nameStorage);       
-        row.children(".Description").children().changeElementType("span");
-        row.children(".Description").children().val(descriptionStorage);
+        if (row.hasClass("add")) {
+            row.remove();
+            added = false;
+        }
+        else {
+            row.removeClass("selected");
+            row.addClass("canceled");
+            row.children(".buttonCol").remove();
+            row.children(".Name").css({ padding: "" });
+            row.children(".Description").css({ padding: "" }).removeClass("col-md-8").addClass("col-md-9");
+            row.children(".Name").children().changeElementType("div");
+            row.children(".Name").children().val(nameStorage);
+            row.children(".Description").children().changeElementType("div");
+            row.children(".Description").children().val(descriptionStorage);
+            if (conditionStorage.supported)
+            {
+                row.addClass("supported");
+                row.removeClass("unsupported");
+            }
+            else {
+                row.addClass("unsupported");
+                row.removeClass("supproted");
+            }
+        }
     }
 
     function ChangeSupported(row) {
@@ -141,18 +178,21 @@
     }
 
     function Save(row) {
+        var url = "/Instructions/Update";
+        if (row.hasClass("add"))
+            url = "/Instructions/Create";
         var model = new Object();
         model.Id = row.attr("data-id");
         model.Name = row.children(".Name").children().val();
         model.Description = row.children(".Description").children().val();
         model.IsSupported = row.hasClass("supported");
         $.ajax({
-            url: "/Instructions/Save",
+            url: url,
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             type: "POST",
             success: function (result) {
-                if (result.success)
+                if (result.success == true)
                 {
                     location.reload();
                 }
@@ -166,8 +206,31 @@
         });
     }
 
-    function Delete(row) {
-
+    function Delete() {
+        var model = new Object();
+        model.Id = deletingRow.attr("data-id");
+        model.Name = deletingRow.children(".Name").children().val();
+        model.Description = deletingRow.children(".Description").children().val();
+        model.IsSupported = deletingRow.hasClass("supported");
+        $.ajax({
+            url: "/Instructions/Delete",
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            success: function (result) {
+                if (result.success == true) {
+                    location.reload();
+                }
+                else {
+                    message = "Server error:("
+                    if (result != undefined)
+                        message = result.answer;
+                    alert(message);
+                }
+            }
+        });
     }
 
 </script>
+
+@Html.Partial("Modals/Delete")    

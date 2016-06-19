@@ -36,15 +36,23 @@ namespace CilPlayground.Controllers
             }
             catch(ServiceException ex)
             {
-                return Json(new { answer = ex.Message, seccessfully = false });
+                return Json(new { answer = ex.Message, success = false });
             }
-            return Json(new { answer = "Instruction added successfully.",seccessfully = true });
+            return Json(new { answer = "Instruction added successfully.",success = true });
         }
 
         [HttpPost]
-        public ActionResult Delete()
+        public ActionResult Delete(InstructionViewModel model)
         {
-            return Json(new { result = "Instruction deleted successfully." });
+            try
+            {
+                _service.Delete(model.ToBll());
+            }
+            catch (ServiceException ex)
+            {
+                return Json(new { answer = ex.Message, success = false });
+            }
+            return Json(new { answer = "Instruction deleted successfully.", success = true });
         }
 
         [HttpPost]
@@ -56,9 +64,9 @@ namespace CilPlayground.Controllers
             }
             catch (ServiceException ex)
             {
-                return Json(new { answer = ex.Message, seccessfully = false });
+                return Json(new { answer = ex.Message, success = false });
             }
-            return Json(new { answer = "Instruction updated successfully.", seccessfully = true });
+            return Json(new { answer = "Instruction updated successfully.", success = true });
         }
     }
 }

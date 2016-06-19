@@ -47,8 +47,8 @@ namespace CilPlayground
 
             routes.MapRoute(
                 name: "Save instruction",
-                url: "Instructions/Save",
-                defaults: new { controller = "Instructions", action = "Save" }
+                url: "Instructions/Update",
+                defaults: new { controller = "Instructions", action = "Update" }
             );
 
             //Admin

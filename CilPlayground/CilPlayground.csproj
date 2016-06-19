@@ -220,6 +220,7 @@
     <Content Include="Views\UserCodes\UserCodes.cshtml" />
     <Content Include="Views\Shared\Modals\SignIn.cshtml" />
     <Content Include="Views\Shared\Modals\SignUp.cshtml" />
+    <Content Include="Views\Shared\Modals\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -255,6 +256,7 @@
     </Compile>
     <Compile Include="Infrastructure\DependencyResolver\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Mappers\MvcMappers.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\InstructionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

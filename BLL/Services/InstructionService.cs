@@ -10,9 +10,11 @@ namespace BLL.Services
     public class InstructionService : BaseService<InstructionEntity, DalInstruction>, IInstructionService
     {
         public InstructionService(IUnitOfWork unitOfWork, IRepository<DalInstruction> repository)
-            : base(unitOfWork, repository)
+            : base(unitOfWork, repository){}
+
+        protected override InstructionEntity ToBll(DalInstruction dal)
         {
-            ToBll = (dal)=> new InstructionEntity()
+            return new InstructionEntity()
             {
                 Id = dal.Id,
                 Name = dal.Name,
@@ -39,7 +41,6 @@ namespace BLL.Services
                     $"Instruction id must be greater then zero, but it is {entity.Id}");
             if (entity.Name == null)
                 throw new ServiceException("Instruction name is null.");
-
         }
     }
 }
