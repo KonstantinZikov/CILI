@@ -39,8 +39,10 @@ namespace DAL.Concrete
         {
             user.Mail = dal.Mail;
             user.Name = dal.Name;
-            user.Password = dal.Password;
-            user.Salt = dal.Salt;
+            if (dal.Password != null)
+                user.Password = dal.Password;
+            if (dal.Salt != null)
+                user.Salt = dal.Salt;
             user.RegistrationTime = dal.RegistrationTime;
             user.RoleId = dal.RoleId;
         }

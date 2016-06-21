@@ -46,8 +46,27 @@ namespace CilPlayground.Infrastructure.Mappers
                 Id = model.Id,
                 Name = model.Name,
                 Mail = model.Mail,
+                Password = model.Password,
                 RegistrationTime = model.RegistrationTime,
                 RoleId = model.RoleId
+            };
+        }
+
+        public static RoleViewModel ToModel(this RoleEntity entity)
+        {
+            return new RoleViewModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name
+            };
+        }
+
+        public static RoleEntity ToBll(this RoleViewModel model)
+        {
+            return new RoleEntity()
+            {
+                Id = model.Id,
+                Name = model.Name
             };
         }
     }

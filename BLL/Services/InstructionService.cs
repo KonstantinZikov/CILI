@@ -1,9 +1,8 @@
 ﻿using BLL.Interface.Entities;
 using BLL.Interface.Services;
-using DAL.Interfaces.Repository;
 using DAL.Interfaces.DTO;
-using System;
 using BLL.Interface.Exceptions;
+using Dal.Interfaces;
 
 namespace BLL.Services
 {

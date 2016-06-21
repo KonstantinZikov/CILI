@@ -2,7 +2,7 @@
 
 namespace BLL.Interface.Entities
 {
-    public class UserEntity
+    public class UserEntity : BllEntity
     {
         public int Id { get; set; }
         public string Mail { get; set; }

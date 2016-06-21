@@ -1,74 +1,88 @@
 ﻿using DAL.Interfaces.DTO;
-using DAL.Interfaces.Repository;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Data.Entity;
 using ORM;
-using static DAL.ExpressionParameterReplacer.ParameterReplacer;
 using System.Collections.Generic;
+using Dal.Interfaces;
+using static DAL.ExpressionParameterReplacer.ParameterReplacer;
 
 namespace DAL.Concrete
 {
-    public abstract class BaseRepositpry<DalType,OrmType> : IRepository<DalType> 
-        where DalType : IEntity 
-        where OrmType : class, IOrmEntity
+    public abstract class BaseRepositpry<TDalType,TOrmType> : IRepository<TDalType> 
+        where TDalType : IEntity 
+        where TOrmType : class, IOrmEntity
     {
-        protected Expression<Func<OrmType, DalType>> ToDal;
+        protected Expression<Func<TOrmType, TDalType>> ToDal;
 
-        private Func<OrmType, DalType> _toDalCompiled;
-        private Func<OrmType, DalType> ToDalCompiled
+        private Func<TOrmType, TDalType> _toDalCompiled;
+        private Func<TOrmType, TDalType> ToDalCompiled
         {
             get
             {
                 if (_toDalCompiled == null)
+                {
                     _toDalCompiled = ToDal.Compile();
+                }
                 return _toDalCompiled;
             }
         }
 
+        protected abstract TOrmType ToOrm(TDalType entity);
+        protected abstract void Update(TDalType dal, TOrmType orm);
 
-        protected abstract OrmType ToOrm(DalType entity);
-        protected abstract void Update(DalType dal, OrmType orm);
+        private readonly DbContext _context;
 
-        private readonly DbContext context;
-
-        public BaseRepositpry(DbContext context)
+        protected BaseRepositpry(DbContext context)
         {
-            this.context = context;
+            if (context == null)
+                throw new ArgumentNullException("context is null");
+            _context = context;
         }
 
-        public void Create(DalType entity)
-            => context.Set<OrmType>().Add(ToOrm(entity));
-
-        public void Delete(DalType entity)
+        public void Create(TDalType entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException("entity is null");
+            _context.Set<TOrmType>().Add(ToOrm(entity));
+        }
+
+        public void Delete(TDalType entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity is null");
             var orm = ToOrm(entity);
-            context.Set<OrmType>().Attach(orm);
-            context.Set<OrmType>().Remove(orm);
+            _context.Set<TOrmType>().Attach(orm);
+            _context.Set<TOrmType>().Remove(orm);
         }
 
-        public IQueryable<DalType> GetAll()
+        public IEnumerable<TDalType> GetAll()
         { 
-            return context.Set<OrmType>().Select(ToDal);
+            return _context.Set<TOrmType>().Select(ToDal);
         }
 
-        public DalType GetById(int key)
+        public TDalType GetById(int id)
         {
-            var orm = context.Set<OrmType>().FirstOrDefault(o => o.Id == key);
+            if (id <= 0)
+                throw new InvalidOperationException("id can't be negative.");
+            var orm = _context.Set<TOrmType>().FirstOrDefault(o => o.Id == id);
             return ToDalCompiled(orm);
         }
 
-        public IQueryable<DalType> GetByPredicate(Expression<Func<DalType, bool>> function)
+        public IQueryable<TDalType> GetByPredicate(Expression<Func<TDalType, bool>> function)
         {
-            var newExpr = Replace<Func<DalType, bool>, Func<OrmType, bool>>
-                (function, function.Parameters.First(), typeof(OrmType));
-            return context.Set<OrmType>().Where(newExpr).Select(ToDal);
+            if (function == null)
+                throw new ArgumentNullException("function is null");
+            var newExpr = Replace<TDalType, TOrmType>(function, typeof(TOrmType));
+            return _context.Set<TOrmType>().Where(newExpr).Select(ToDal);
         }
 
-        public void Update(DalType entity)
+        public void Update(TDalType entity)
         {
-            var orm = context.Set<OrmType>().Single(u => u.Id == entity.Id);
+            if (entity == null)
+                throw new ArgumentNullException("entity is null");
+            var orm = _context.Set<TOrmType>().Single(u => u.Id == entity.Id);
             Update(entity, orm);
         }
     }

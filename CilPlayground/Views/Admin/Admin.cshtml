@@ -1,29 +1,27 @@
-﻿@model List<CilPlayground.Models.UserViewModel>
+﻿@Html.Partial("Modals/Delete")    
+
+@using CilPlayground.Models;
+@model AdminViewModel
 @{
     ViewBag.Title = "Controls";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
-    .instructionRow {
+    .editRow {       
         margin: 0px;
         margin-bottom: 8px;
     }
 
-    .instructionCol {
+    .adminCol {
+        background-color:#101010;
+        margin:3px;
         padding: 15px;
     }
 
     .buttonCol {
+        margin:3px;
         padding: 0;
-    }
-
-    .supported {
-        background-color: #005000;
-    }
-
-    .unsupported {
-        background-color: #500000;
     }
 </style>
 
@@ -33,23 +31,45 @@
     <h5>Click to user to edit. </h5>
     <button class="btn ciliButton" id="addButton">Add new</button>
     <div class="row" id="tableHeader">
-        <div class="col-md-3"><h4>Instruction</h4></div>
-        <div class="col-md-9"><h4>Description</h4></div>
+        <div class="col-md-2"><h4>User name</h4></div>
+        <div class="col-md-3"><h4>Email</h4></div>
+        <div class="col-md-2"><h4>Registration time</h4></div>
+        <div class="col-md-1" id="roleHeader"><h4>Role</h4></div>
+        <div class="col-md-2" id="passwordHeader" style="display:none"><h4>Password</h4></div>
     </div>
-    @for (int i = 0; i < Model.Count; i++)
+    @for (int i = 0; i < Model.Users.Count; i++)
     {
-
-        <div class="row instructionRow" data-id="@Model[i].Id">
-            <div class="col-md-3 instructionCol Name">
-                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model[i].Name</div>
+        <div class="row editRow" data-id="@Model.Users[i].Id">
+            <div class="col-md-2 adminCol Name">
+                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model.Users[i].Name</div>
             </div>
-            <div class="col-md-9 instructionCol Description">
-                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model[i].RoleId</div>
+            <div class="col-md-3 adminCol Mail">
+                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model.Users[i].Mail</div>
+            </div>
+            <div class="col-md-2 adminCol RegistrationTime">
+                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model.Users[i].RegistrationTime</div>
+            </div>
+            <div class="col-md-2 adminCol Role" data-roleId="@Model.Users[i].RoleId">
+                <div style="min-width:100%; border-style:none; background-color:inherit;">
+                    @Model.Roles.Where(r=>r.Id == @Model.Users[i].RoleId).FirstOrDefault().Name
+                </div>
             </div>
         </div>
     }
-
 </div>
+
+<div style="display:none">
+    <select style="min-width:100%; border-style:none; background-color:inherit;" class="roleEditSample">
+        @for (int i = 0; i < Model.Roles.Count; i++)
+        {
+            <option value="@Model.Roles[i].Id">@Model.Roles[i].Name</option>
+        }
+    </select>
+
+    <div style="min-width:100%; border-style:none; background-color:inherit;" class="roleSample">
+    </div>
+</div>
+
 
 <script type="text/javascript">
     (function ($) {
@@ -73,14 +93,16 @@
         $("#saveButton").click(function () {
             Save($(this).parent().parent());
         });
+
         $("#deleteButton").click(function () {
             deletingRow = $(this).parent().parent();
             $("#deleteModal").modal();
         });
 
-        $("#supportedButton").click(function () {
-            ChangeSupported($(this).parent().parent());
+        $("#createButton").click(function () {
+            Save($(this).parent().parent());
         });
+
     }
 
     var deletingRow;
@@ -90,8 +112,6 @@
     });
 
     var conditionStorage = new Object();
-    var nameStorage;
-    var descriptionStorage;
 
     var added = false;
     $("#addButton").click(
@@ -99,49 +119,75 @@
             if (added == false) {
                 added = true;
                 $("#tableHeader").after(
-                    '<div class="row instructionRow supported selected add" data-id="0">' +
-                        '<div class="col-md-3 instructionCol Name">' +
-                            '<textarea style="min-width:100%; padding:0; border-style:none; background-color:inherit;">Name</textarea>' +
+                    '<div class="row editRow add" data-id="0">' +
+                        '<div class="col-md-2 adminCol Name">' +
+                            '<textarea style="min-width:100%; border-style:none; background-color:inherit;">Name</textarea>' +
+                        '</div>'+
+                        '<div class="col-md-3 adminCol Mail">' +
+                            '<textarea style="min-width:100%; border-style:none; background-color:inherit;">example@mail.com</textarea>' +
+                        '</div>'+
+                        '<div class="col-md-2 adminCol RegistrationTime">' +
+                            '<textarea style="min-width:100%; border-style:none; background-color:inherit;">@DateTime.Now</textarea>' +
+                        '</div>'+
+                        '<div class="col-md-1 adminCol Role">' +
                         '</div>' +
-                        '<div class="col-md-8 instructionCol Description">' +
-                            '<textarea style="min-width:100%; padding:0; border-style:none; background-color:inherit;">Descritpion</textarea>' +
+                        '<div class="col-md-2 adminCol Password">' +
+                            '<textarea style="min-width:100%; border-style:none; background-color:inherit;">****</textarea>' +
                         '</div>' +
                         '<div class="col-md-1 buttonCol">' +
-                            '<button class="btn ciliButton" id="saveButton">Create</button>' +
+                            '<button class="btn ciliButton" id="createButton">Create</button>' +
                             '<button class="btn ciliButton" id="cancelButton">Cancel</button>' +
-                            '<button class="btn ciliButton" id="supportedButton">Supported</button>' +
                         '</div>' +
                      '</div>');
+                var list = $(".roleEditSample");
+                var nlist = list.clone();
+                var add = $(".add");
+                var child = add.children(".Role")
+                child.append(nlist);
                 BindEvents();
             }
     });
 
 
-    $(".instructionRow").click(
+    $(".editRow").click(
     function () {
         if ($(this).hasClass("canceled"))
         {
             $(this).removeClass("canceled");
         }
         else
-        if ($(".selected").size() == 0) {
-            conditionStorage.name = $(this).children(".Name").children().val();
-            conditionStorage.description = $(this).children(".Description").children().val();
-            conditionStorage.supported = $(this).hasClass("supported");
-            $(this).addClass("selected");
-            $(this).append('<div class="col-md-1 buttonCol">' +
-                '<button class="btn ciliButton" id="saveButton">Save</button>' +
-                '<button class="btn ciliButton" id="cancelButton">Cancel</button>' +
-                '<button class="btn ciliButton" id="deleteButton">Delete</button>'+
-                '<button class="btn ciliButton" id="supportedButton">Supported</button></div>');
-            $(this).children(".Description").removeClass("col-md-9").addClass("col-md-8");
-            $(this).children(".Name").children().changeElementType("textarea");
-            $(this).children(".Description").children().changeElementType("textarea");
-            BindEvents();
+            if ($(".selected").size() == 0) {
+                $("#passwordHeader").removeAttr("style");
+                conditionStorage = new Object();
+                conditionStorage.name = $(this).children(".Name").children().text();
+                conditionStorage.mail = $(this).children(".Mail").children().text();
+                conditionStorage.registrationTime = $(this).children(".RegistrationTime").children().text();
+                conditionStorage.role = $(this).children(".Role").children().text();
+                $(this).addClass("selected");
+                $(this).append(
+                    '<div class="col-md-2 adminCol Password">' +
+                          '<textarea style="min-width:100%; border-style:none; background-color:inherit;"></textarea>' +
+                    '</div>'+
+                    '<div class="col-md-1 buttonCol">' +
+                    '<button class="btn ciliButton" id="saveButton">Save</button>' +
+                    '<button class="btn ciliButton" id="cancelButton">Cancel</button>' +
+                    '<button class="btn ciliButton" id="deleteButton">Delete</button>');
+
+                $(this).children(".Role").removeClass("col-md-2").addClass("col-md-1");
+                var roleId = $(this).children(".Role").attr("data-roleId");
+                $(this).children(".Role").children().remove();
+                $(this).children(".Role").append($(".roleEditSample").clone());
+                $(this).children(".Role").children().children("[value =" + roleId + "]").attr("selected","selected");
+
+                $(this).children(".Name").children().changeElementType("textarea");
+                $(this).children(".Mail").children().changeElementType("textarea");
+                $(this).children(".RegistrationTime").children().changeElementType("textarea");
+                BindEvents();
         }
     });
 
     function Cancel(row) {
+        $("#passwordHeader").css({ display: "none" });
         if (row.hasClass("add")) {
             row.remove();
             added = false;
@@ -150,38 +196,37 @@
             row.removeClass("selected");
             row.addClass("canceled");
             row.children(".buttonCol").remove();
-            row.children(".Name").css({ padding: "" });
-            row.children(".Description").css({ padding: "" }).removeClass("col-md-8").addClass("col-md-9");
+            row.children(".Password").remove();
+            row.children(".Role").removeClass("col-md-1").addClass("col-md-2");
             row.children(".Name").children().changeElementType("div");
-            row.children(".Name").children().val(nameStorage);
-            row.children(".Description").children().changeElementType("div");
-            row.children(".Description").children().val(descriptionStorage);
-            if (conditionStorage.supported)
-            {
-                row.addClass("supported");
-                row.removeClass("unsupported");
-            }
-            else {
-                row.addClass("unsupported");
-                row.removeClass("supproted");
-            }
+            row.children(".Name").children().val(conditionStorage.name);
+            row.children(".Mail").children().changeElementType("div");
+            row.children(".Mail").children().val(conditionStorage.mail);
+            row.children(".RegistrationTime").children().changeElementType("div");
+            row.children(".RegistrationTime").children().val(conditionStorage.registrationTime);
+            row.children(".Role").children().remove();
+            row.children(".Role").append($(".roleSample").clone());
+            row.children(".Role").children().removeClass("roleSample");
+            row.children(".Role").children().text(conditionStorage.role);
         }
     }
 
-    function ChangeSupported(row) {
-        row.toggleClass("supported");
-        row.toggleClass("unsupported");
-    }
-
     function Save(row) {
-        var url = "/Instructions/Update";
-        if (row.hasClass("add"))
-            url = "/Instructions/Create";
+        var url = "/Admin/Update";
+
         var model = new Object();
         model.Id = row.attr("data-id");
         model.Name = row.children(".Name").children().val();
-        model.Description = row.children(".Description").children().val();
-        model.IsSupported = row.hasClass("supported");
+        model.Mail = row.children(".Mail").children().val();
+        model.RegistrationTime = row.children(".RegistrationTime").children().val();
+        model.RoleId = row.children(".Role").children().val();     
+        if (row.hasClass("add"))
+        {
+            url = "/Admin/Create";
+            var password = row.children(".Password").children().val();
+            if (password)
+                model.password = SHA512(password);
+        }                
         $.ajax({
             url: url,
             data: JSON.stringify(model),
@@ -206,10 +251,11 @@
         var model = new Object();
         model.Id = deletingRow.attr("data-id");
         model.Name = deletingRow.children(".Name").children().val();
-        model.Description = deletingRow.children(".Description").children().val();
-        model.IsSupported = deletingRow.hasClass("supported");
+        model.Mail = deletingRow.children(".Mail").children().val();
+        model.RegistrationTime = deletingRow.children(".RegistrationTime").children().val();
+        model.Role = deletingRow.children(".Role").children().val();
         $.ajax({
-            url: "/Instructions/Delete",
+            url: "/Admin/Delete",
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             type: "POST",
@@ -229,4 +275,3 @@
 
 </script>
 
-@Html.Partial("Modals/Delete")    

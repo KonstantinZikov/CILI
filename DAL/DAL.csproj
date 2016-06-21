@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Concrete\BaseRepository.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
+    <Compile Include="Concrete\RoleRepository.cs" />
     <Compile Include="Concrete\UserRepository.cs" />
     <Compile Include="Concrete\InstructionRepository.cs" />
     <Compile Include="ExpressionParameterReplacer\ParameterReplacer.cs" />

@@ -8,13 +8,25 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/Cili/Sha512.js")   
     @RenderSection("scripts", required: false)
     @Styles.Render("~/Content/Modals.css")
     @Styles.Render("~/Content/Elements.css")
+    <script type="text/javascript">
+        function signOut() {
+            $.ajax({
+                url: "/User/SignOut",
+                type: "POST",
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    </script>
 </head>
 <body style="background-color:#252525; color:white">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#3B1255">        
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color:#3B1255; border-style:none;">        
         <div class="container-fluid">           
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -24,19 +36,43 @@
             </button>  
             <h4 class="navbar-text" style="color:white">CIL Interpreter</h4>         
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li>@Html.ActionLink("Interpreter", "Index", "Interpreter", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li>@Html.ActionLink("Try-page", "Index", "Try", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li>@Html.ActionLink("My Codes", "Index", "UserCodes", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li>@Html.ActionLink("Examples", "Index", "Examples", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li>@Html.ActionLink("Controls", "Index", "Admin", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li>@Html.ActionLink("Instructions and directives", "Index", "Instructions", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Interpreter", "Index", "Interpreter", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("My Codes", "Index", "UserCodes", new {area = ""}, new {@class = "navbar-brand"})</li>
+                        <li>@Html.ActionLink("Examples", "Index", "Examples", new {area = ""}, new {@class = "navbar-brand"})</li>
+                        if (HttpContext.Current.User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Controls", "Index", "Admin", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                        <li>@Html.ActionLink("Try", "Index", "Try", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    }
+
+                    
+                    <li>@Html.ActionLink("Instructions", "Index", "Instructions", new {area = ""}, new {@class = "navbar-brand"})</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" class="navbar-brand" data-toggle="modal" data-target="#signInModal">Sign In</a></li>
-                    <li><a href="#" class="navbar-brand" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
+                    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <div class="navbar-brand" style="font-size: 22px; color: white;">
+                                @HttpContext.Current.User.Identity.Name
+                            </div>
+                        </li>
+                        <li><a href="#" onclick="signOut()" class="navbar-brand" data-toggle="modal">Sign Out</a></li>
+                        
+                    }
+                    else
+                    {
+                        <li><a href="#" class="navbar-brand" data-toggle="modal" data-target="#signInModal">Sign In</a></li>
+                        <li><a href="#" class="navbar-brand" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
+                    }
+                    
                 </ul>
             </div>           
             <div class="navbar-collapse collapse">

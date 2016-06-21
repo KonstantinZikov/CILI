@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using BLL.Interface.Services;
 using CilPlayground.Infrastructure.Mappers;
 using CilPlayground.Models;
-using BLL.Interface.Entities;
 using BLL.Interface.Exceptions;
 
 namespace CilPlayground.Controllers
@@ -18,16 +15,19 @@ namespace CilPlayground.Controllers
             _service = service;
         }
 
-        readonly private IInstructionService _service;
+        private readonly IInstructionService _service;
       
         public ActionResult Index()
         {
             var models = new List<InstructionViewModel>
                 (_service.GetAllEntities().Select(e=>e.ToModel())).OrderBy(e=>e.Name).ToList();
+            if (HttpContext.User.IsInRole("Admin"))
+                return View("InstructionsEdit", models);
             return View("Instructions",models);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(InstructionViewModel model)
         {
             try
@@ -42,6 +42,7 @@ namespace CilPlayground.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(InstructionViewModel model)
         {
             try
@@ -56,6 +57,7 @@ namespace CilPlayground.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Update(InstructionViewModel model)
         {
             try

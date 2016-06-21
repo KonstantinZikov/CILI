@@ -16,21 +16,29 @@
     font-size:14px;
 }
 
+.ciliInput {
+        border-radius: 0;
+        border-style: none;
+        color: white;
+        background-color: #101010;
+        margin: 10px;
+    }
+
 .ciliButton{
     color:white;
     border-radius:0;
     margin:0px;
     border-style:none;
-    background-color:#AA0000;
-    -webkit-transition: background-color,color 500ms; /* Safari */
-    transition: background-color,color 500ms;
+    background-color:#b80000;
+    -webkit-transition: background-color 300ms; /* Safari */
+    transition: background-color 300ms;
 }
 
 .ciliButton:hover{
-    background-color:#AAAAAA;
-    color:black;
-    -webkit-transition: background-color,color 500ms;
-    transition: background-color,color 500ms;
+    color:white;
+    background-color:#196cb8;
+    -webkit-transition: background-color 300ms;
+    transition: background-color 300ms;
 }
 
 @media (max-width: 1200px) {

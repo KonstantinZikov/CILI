@@ -40,14 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BllEntity.cs" />
     <Compile Include="Entities\InstructionEntity.cs" />
     <Compile Include="Entities\RoleEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Exceptions\ServiceException.cs" />
-    <Compile Include="ICodeService.cs" />
+    <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IExecuteService.cs" />
     <Compile Include="Services\IInstructionService.cs" />
+    <Compile Include="Services\InterpreterCondition.cs" />
     <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\IRoleServic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,14 +1,16 @@
 ﻿using DAL.Interfaces.DTO;
-using DAL.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using BLL.Interface.Exceptions;
+using BLL.Interface.Entities;
+using Dal.Interfaces;
 
 namespace BLL.Services
 {
     public abstract class BaseService<BllType,DalType> 
         where DalType : IEntity
+        where BllType : BllEntity
     {
         protected abstract BllType ToBll(DalType dal);
         protected abstract DalType ToDal(BllType bll);
@@ -17,19 +19,19 @@ namespace BLL.Services
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IRepository<DalType> repository;
 
-        public BaseService(IUnitOfWork unitOfWork, IRepository<DalType> repository)
+        protected BaseService(IUnitOfWork unitOfWork, IRepository<DalType> repository)
         {
             this.unitOfWork = unitOfWork;
             this.repository = repository;
         }
 
-        public BllType Get(int id)
+        public virtual BllType Get(int id)
             => ToBll(repository.GetById(id));
 
-        public IEnumerable<BllType> GetAllEntities()
+        public virtual IEnumerable<BllType> GetAllEntities()
             => repository.GetAll().Select(ToBll);
 
-        public void Create(BllType entity)
+        public virtual void Create(BllType entity)
         {
             Check(entity);
             try
@@ -43,9 +45,10 @@ namespace BLL.Services
             }
         }
 
-        public void Delete(BllType entity)
+        public virtual void Delete(BllType entity)
         {
-            Check(entity);
+            if (entity.Id < 0)
+                throw new ServiceException("Id must be greater then zero.");
             try
             {
                 repository.Delete(ToDal(entity));
@@ -57,7 +60,7 @@ namespace BLL.Services
             }
         }
 
-        public void Update(BllType entity)
+        public virtual void Update(BllType entity)
         {
             Check(entity);
             try

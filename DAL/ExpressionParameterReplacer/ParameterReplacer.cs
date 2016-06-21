@@ -6,42 +6,53 @@ namespace DAL.ExpressionParameterReplacer
 {
     public static class ParameterReplacer
     {
-        // Produces an expression identical to 'expression'
-        // except with 'source' parameter replaced with 'target' expression.     
-        public static Expression<TOutput> Replace<TInput, TOutput>
-                        (Expression<TInput> expression,
-                        ParameterExpression source,
-                        Type newPropertyType)
+        /// <summary>
+        /// Change the type of first expression parameter to selected.
+        /// Expression body must be an equality comparison.
+        /// </summary>
+        /// <typeparam name="OldType"></typeparam>
+        /// <typeparam name="NewType"></typeparam>
+        /// <param name="expression"></param>
+        /// <param name="changingType"></param>
+        /// <returns></returns>
+        public static Expression<Func<NewType, bool>> Replace<OldType,NewType>
+            (Expression<Func<OldType, bool>> expression, Type changingType)
         {
-            var target = Expression.Parameter(newPropertyType);
-            return new ParameterReplacerVisitor<TOutput>(source, target)
-                        .VisitAndConvert(expression);
-        }
+            if (expression == null)
+                throw new ArgumentNullException("expression is null.");
+            if (changingType == null)
+                throw new ArgumentNullException("changingType is null.");
 
-        private class ParameterReplacerVisitor<TOutput> : ExpressionVisitor
-        {
-            private ParameterExpression _source;
-            private Expression _target;
+            var name = expression.Parameters.First().Name;
 
-            public ParameterReplacerVisitor (ParameterExpression source, Expression target)
-            {
-                _source = source;
-                _target = target;
-            }
+            //Create new param of selected type with name of old param
+            var param = Expression.Parameter(changingType, name);
 
-            internal Expression<TOutput> VisitAndConvert<T>(Expression<T> root)
-                => (Expression<TOutput>)VisitLambda(root);
+            var binary = expression.Body as BinaryExpression;
 
-            // Leave all parameters alone except the one we want to replace.
-            protected override Expression VisitLambda<T>(Expression<T> node)
-            {              
-                var parameters = node.Parameters.Where(p => p != _source);
-                return Expression.Lambda<TOutput>(Visit(node.Body), parameters);
-            }
 
-            // Replace the source with the target, visit other params as usual.
-            protected override Expression VisitParameter(ParameterExpression node)
-                => node == _source ? _target : base.VisitParameter(node);
-        }
+            if (binary?.NodeType != ExpressionType.Equal)
+                throw new InvalidOperationException("expression must be an equality comparison.");
+
+            //Get left part of comparison. This part of us is not important.
+            var right = binary.Right;
+
+            //Get right part of comparison, for example: "role.Id"
+            var left = binary.Left as MemberExpression;
+
+            //Get name of member. For "role.Id" it will be "Id".
+            var leftMemberName = left.Member.Name;
+
+            //Get member of selected type with several name
+            var newMember = changingType.GetMember(leftMemberName)[0];
+
+            //Create new member expression with selected type's member.
+            var newLeft = Expression.MakeMemberAccess(param,newMember);
+
+            var newBody = Expression.Equal(newLeft, right);
+
+            var result =  Expression.Lambda<Func<NewType, bool>>(newBody, param);
+            return result;
+        }   
     }
 }

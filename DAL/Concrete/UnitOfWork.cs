@@ -1,9 +1,8 @@
-﻿//http://www.asp.net/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
-
-using System;
+﻿using System;
 using System.Data.Entity;
-using System.Diagnostics;
-using DAL.Interfaces.Repository;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using Dal.Interfaces;
 
 namespace DAL.Concrete
 {
@@ -13,13 +12,27 @@ namespace DAL.Concrete
 
         public UnitOfWork(DbContext context)
         {
+            if (context == null)
+                throw new ArgumentNullException("context is null");
             Context = context;
         }
 
         public void Commit()
-            => Context?.SaveChanges();
+        {
+            try
+            {
+                Context?.SaveChanges();
+            }
+            catch(Exception ex) when
+            (   ex.GetType() == typeof(DbUpdateConcurrencyException)||
+                ex.GetType() == typeof(DbUpdateException) ||
+                ex.GetType() == typeof(DbEntityValidationException))
+            {
+                throw new UnitOfWorkException("Some db problems.", ex);
+            }
+        }
 
         public void Dispose()
-            => Context?.Dispose();
+            =>Context?.Dispose();
     }
 }

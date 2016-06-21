@@ -25,7 +25,7 @@ function ()
         Running = true;
         $("#playButton").attr("src", "/Content/Images/stop-button.png");
         $("#status").text("Running");
-        $("#status").css({"color":"green"})
+        $("#status").css({ "color": "green" });
         var code = $("#code").val();
         $.ajax({
             url: "/Execute",
@@ -70,6 +70,7 @@ $("#inputButton").click(
 function () {
     if (Running === true) {           
         var input = $("#input").val();
+        Output(input + "\r\n");
         $("#input").val("");
         $.ajax({
             url: "/Continue",

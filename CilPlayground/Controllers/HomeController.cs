@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using BLL.Interface;
-using BLL;
+﻿using System.Web.Mvc;
+using System.Web.Security;
+
 namespace CilPlayground.Controllers
 {
     public class HomeController : Controller
@@ -12,6 +8,8 @@ namespace CilPlayground.Controllers
         
         public ActionResult Index()
         {
+            if (Roles.IsUserInRole("User") || Roles.IsUserInRole("Admin"))
+                return RedirectToAction("Index", "Interpreter");
             return View("Home");
         }       
     }

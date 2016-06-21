@@ -1,17 +1,23 @@
 ﻿<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" style="color:black">
         <div class="modal-content ciliModal">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color:#3B1255; border-style:none">
                 <button type="button" class="close ciliCloseButton" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Sign in</h4>
+                <h4 class="modal-title" id="myModalLabel">Sign In</h4>
             </div>
-            <div class="modal-body">
-                ...
+            <div class="modal-body" style="border-style:none">
+                <div class="form-group">
+                    <input id="signInNameInput" type="text" class="form-control input-lg ciliInput" placeholder="Name">
+                    <input id="signInPasswordInput" type="password" class="form-control input-lg ciliInput" placeholder="Password">
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Login</button>
+            <h4 class="text-center" id="signInErrorBox">
+            </h4>
+            <div class="modal-footer" style="background-color:#101010; border-style:none; padding:0">
+                <button type="button" id="signInButton" class="btn ciliButton" style="font-size:20px; width:100%">Sign In</button>
             </div>
         </div>
     </div>
 </div>
+
+@Scripts.Render("~/scripts/Cili/modal.signin.js")

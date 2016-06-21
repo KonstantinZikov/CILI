@@ -76,3 +76,5 @@ D:\Projects\СilPlayground\CilPlayground\bin\EntityFramework.xml
 D:\Projects\СilPlayground\CilPlayground\bin\ORM.pdb
 D:\Projects\СilPlayground\CilPlayground\bin\EntityFramework.SqlServer.dll
 D:\Projects\СilPlayground\CilPlayground\bin\EntityFramework.SqlServer.xml
+D:\Projects\СilPlayground\CilPlayground\bin\System.Web.Providers.dll
+D:\Projects\СilPlayground\CilPlayground\bin\System.Web.Providers.xml

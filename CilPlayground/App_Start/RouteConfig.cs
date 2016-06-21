@@ -60,6 +60,46 @@ namespace CilPlayground
             );
 
             routes.MapRoute(
+                name: "AdminUpdate",
+                url: "Admin/Update",
+                defaults: new { controller = "Admin", action = "Update" }
+            );
+
+            routes.MapRoute(
+                name: "AdminDelete",
+                url: "Admin/Delete",
+                defaults: new { controller = "Admin", action = "Delete" }
+            );
+
+            routes.MapRoute(
+                name: "AdminCreate",
+                url: "Admin/Create",
+                defaults: new { controller = "Admin", action = "Create" }
+            );
+
+            //User
+
+            routes.MapRoute(
+                name: "UserSignUp",
+                url: "User/SignUp",
+                defaults: new { controller = "User", action = "SignUp" }
+            );
+
+            routes.MapRoute(
+                name: "UserSignIn",
+                url: "User/SignIn",
+                defaults: new { controller = "User", action = "SignIn" }
+            );
+
+            routes.MapRoute(
+                name: "UserSignOut",
+                url: "User/SignOut",
+                defaults: new { controller = "User", action = "SignOut" }
+            );
+
+            //Examples
+
+            routes.MapRoute(
                 name: "Examples",
                 url: "Examples",
                 defaults: new { controller = "Examples", action = "Index" }
@@ -93,6 +133,14 @@ namespace CilPlayground
                 name: "Stop",
                 url: "Stop",
                 defaults: new { controller = "Execute", action = "Stop" }
+            );
+
+            //Error
+
+            routes.MapRoute(
+                 "404-PageNotFound",
+                "{*url}",
+                new { controller = "Error", action = "NotFound" }
             );
 
         }

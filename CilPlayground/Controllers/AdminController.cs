@@ -2,26 +2,35 @@
 using BLL.Interface.Services;
 using CilPlayground.Infrastructure.Mappers;
 using CilPlayground.Models;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace CilPlayground.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        public AdminController(IUserService service)
+        public AdminController(IUserService userService, IRoleService roleService)
         {
-            _service = service;
+            _userService = userService;
+            _roleService = roleService;
         }
 
-        readonly private IUserService _service;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
 
         public ActionResult Index()
         {
-            var models = new List<UserViewModel>
-                (_service.GetAllEntities().Select(e => e.ToModel())).OrderBy(e => e.Name).ToList();
-            return View("Admin", models);
+            var users = _userService.GetAllEntities().Select(u=>u.ToModel())
+                .OrderBy(e=>e.Name).ToList();
+            var roles = _roleService.GetAllEntities().Select(r => r.ToModel())
+                .OrderBy(e => e.Name).ToList();
+            var model = new AdminViewModel
+            {
+                Users = users,
+                Roles = roles
+            };
+            return View("Admin", model);
         }
 
         [HttpPost]
@@ -29,9 +38,13 @@ namespace CilPlayground.Controllers
         {
             try
             {
-                _service.Create(model.ToBll());
+                _userService.Create(model.ToBll());
             }
             catch (ServiceException ex)
+            {
+                return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
+            }
+            catch (UserException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }
@@ -43,9 +56,13 @@ namespace CilPlayground.Controllers
         {
             try
             {
-                _service.Delete(model.ToBll());
+                _userService.Delete(model.ToBll());
             }
             catch (ServiceException ex)
+            {
+                return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
+            }
+            catch (UserException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }
@@ -57,9 +74,13 @@ namespace CilPlayground.Controllers
         {
             try
             {
-                _service.Update(model.ToBll());
+                _userService.Update(model.ToBll());
             }
             catch (ServiceException ex)
+            {
+                return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
+            }
+            catch (UserException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }
