@@ -8,35 +8,35 @@ using Dal.Interfaces;
 
 namespace BLL.Services
 {
-    public abstract class BaseService<BllType,DalType> 
-        where DalType : IEntity
-        where BllType : BllEntity
+    public abstract class BaseService<TBllType,TDalType> 
+        where TDalType : IEntity
+        where TBllType : BllEntity
     {
-        protected abstract BllType ToBll(DalType dal);
-        protected abstract DalType ToDal(BllType bll);
-        protected abstract void Check(BllType entity);
+        protected abstract TBllType ToBll(TDalType dal);
+        protected abstract TDalType ToDal(TBllType bll);
+        protected abstract void Validate(TBllType entity);
 
         protected readonly IUnitOfWork unitOfWork;
-        protected readonly IRepository<DalType> repository;
+        protected readonly IRepository<TDalType> Repository;
 
-        protected BaseService(IUnitOfWork unitOfWork, IRepository<DalType> repository)
+        protected BaseService(IUnitOfWork unitOfWork, IRepository<TDalType> repository)
         {
             this.unitOfWork = unitOfWork;
-            this.repository = repository;
+            Repository = repository;
         }
 
-        public virtual BllType Get(int id)
-            => ToBll(repository.GetById(id));
+        public virtual TBllType Get(int id)
+            => ToBll(Repository.GetById(id));
 
-        public virtual IEnumerable<BllType> GetAllEntities()
-            => repository.GetAll().Select(ToBll);
+        public virtual IEnumerable<TBllType> GetAllEntities()
+            => Repository.GetAll().Select(ToBll);
 
-        public virtual void Create(BllType entity)
+        public virtual void Create(TBllType entity)
         {
-            Check(entity);
+            Validate(entity);
             try
             {
-                repository.Create(ToDal(entity));
+                Repository.Create(ToDal(entity));
                 unitOfWork.Commit();
             }
             catch (Exception ex)
@@ -45,13 +45,13 @@ namespace BLL.Services
             }
         }
 
-        public virtual void Delete(BllType entity)
+        public virtual void Delete(TBllType entity)
         {
             if (entity.Id < 0)
                 throw new ServiceException("Id must be greater then zero.");
             try
             {
-                repository.Delete(ToDal(entity));
+                Repository.Delete(ToDal(entity));
                 unitOfWork.Commit();
             }
             catch (Exception ex)
@@ -60,12 +60,12 @@ namespace BLL.Services
             }
         }
 
-        public virtual void Update(BllType entity)
+        public virtual void Update(TBllType entity)
         {
-            Check(entity);
+            Validate(entity);
             try
             {
-                repository.Update(ToDal(entity));
+                Repository.Update(ToDal(entity));
                 unitOfWork.Commit();
             }
             catch(Exception ex)

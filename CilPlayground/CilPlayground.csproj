@@ -52,6 +52,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CilInterpreter\bin\Debug\CilInterpreter.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -111,6 +119,10 @@
     </Reference>
     <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
@@ -175,12 +187,17 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Elements.css" />
+    <Content Include="Content\examples.css" />
+    <Content Include="Content\Images\delete-button.png" />
     <Content Include="Content\Images\play-button-off.png" />
     <Content Include="Content\Images\play-button.png" />
+    <Content Include="Content\Images\rename-button.png" />
     <Content Include="Content\Images\stop-button-off.png" />
     <Content Include="Content\Images\stop-button.png" />
+    <Content Include="Content\interpreter.css" />
     <Content Include="Content\Modals.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\userCodes.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
@@ -195,14 +212,29 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\Cili\admin.js" />
+    <Content Include="scripts\Cili\blockInput.js" />
+    <Content Include="scripts\Cili\changeElementType.js" />
     <Content Include="scripts\Cili\codeBox.js" />
+    <Content Include="scripts\Cili\examples.js" />
+    <Content Include="scripts\Cili\home.js" />
+    <Content Include="scripts\Cili\instructions.js" />
+    <Content Include="scripts\Cili\interpreter.js" />
     <Content Include="scripts\Cili\interpreterLogic.js" />
     <Content Include="scripts\Cili\modal.signin.js" />
     <Content Include="scripts\Cili\modal.signup.js" />
+    <Content Include="scripts\Cili\rename.js" />
+    <Content Include="scripts\Cili\saveAs.js" />
     <Content Include="scripts\Cili\Sha512.js" />
+    <Content Include="scripts\Cili\signOut.js" />
+    <Content Include="scripts\Cili\try.js" />
+    <Content Include="scripts\Cili\userCodes.js" />
     <Content Include="scripts\jquery-2.2.3.js" />
     <Content Include="scripts\jquery-2.2.3.min.js" />
     <Content Include="scripts\jquery-2.2.3.min.map" />
@@ -215,12 +247,11 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Try\Try.cshtml" />
-    <Content Include="Views\Instructions\InstructionsEdit.cshtml" />
+    <Content Include="Views\Instructions\Instructions.cshtml" />
     <Content Include="Views\Admin\Admin.cshtml" />
     <Content Include="Views\Examples\Examples.cshtml" />
     <Content Include="Views\Interpreter\Interpreter.cshtml" />
@@ -229,7 +260,8 @@
     <Content Include="Views\Shared\Modals\SignUp.cshtml" />
     <Content Include="Views\Shared\Modals\Delete.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
-    <Content Include="Views\Instructions\Instructions.cshtml" />
+    <Content Include="Views\Shared\Modals\SaveAs.cshtml" />
+    <Content Include="Views\Shared\Modals\Rename.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -266,6 +298,10 @@
     <Compile Include="Infrastructure\DependencyResolver\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Mappers\MvcMappers.cs" />
     <Compile Include="Infrastructure\Providers\CiliRoleProvider.cs" />
+    <Compile Include="Jobs\ExecuteContextCleaner.cs" />
+    <Compile Include="Jobs\ExecuteContextCleanSheduler.cs" />
+    <Compile Include="Models\DocumentViewModel.cs" />
+    <Compile Include="Models\UserCodeViewModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -274,7 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Execute\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL.Interface\BLL.Interfaces.csproj">

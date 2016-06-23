@@ -7,22 +7,12 @@
     @Styles.Render("~/Content/css")    
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/scripts/Cili/Sha512.js")   
+    @Scripts.Render("~/bundles/bootstrap")  
     @RenderSection("scripts", required: false)
     @Styles.Render("~/Content/Modals.css")
     @Styles.Render("~/Content/Elements.css")
-    <script type="text/javascript">
-        function signOut() {
-            $.ajax({
-                url: "/User/SignOut",
-                type: "POST",
-                success: function () {
-                    location.reload();
-                }
-            });
-        }
-    </script>
+    @Scripts.Render("~/bundles/Layout")
+    
 </head>
 <body style="background-color:#252525; color:white">
 

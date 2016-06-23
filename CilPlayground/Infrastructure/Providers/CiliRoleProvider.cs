@@ -7,8 +7,6 @@ namespace CilPlayground.Providers
 {
     public class CiliRoleProvider : RoleProvider
     {
-
-
         public override string[] GetRolesForUser(string username)
         {
             //anti-pattern?
@@ -16,6 +14,11 @@ namespace CilPlayground.Providers
             var roleService = System.Web.Mvc.DependencyResolver.Current.GetService<IRoleService>();
 
             var user = userService.Get(username);
+            if (user == null)
+            {
+                FormsAuthentication.SignOut();
+                return new string[0];
+            }
             var role = roleService.Get(user.RoleId);
             return new [] { role.Name };
             

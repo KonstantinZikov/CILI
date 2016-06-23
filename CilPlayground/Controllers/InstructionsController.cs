@@ -21,8 +21,6 @@ namespace CilPlayground.Controllers
         {
             var models = new List<InstructionViewModel>
                 (_service.GetAllEntities().Select(e=>e.ToModel())).OrderBy(e=>e.Name).ToList();
-            if (HttpContext.User.IsInRole("Admin"))
-                return View("InstructionsEdit", models);
             return View("Instructions",models);
         }
 

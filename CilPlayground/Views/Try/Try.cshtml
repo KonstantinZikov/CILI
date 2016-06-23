@@ -1,37 +1,34 @@
-﻿@{
+﻿@model CilPlayground.Models.DocumentViewModel
+@{
     ViewBag.Title = "CILI";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@Scripts.Render("~/scripts/jquery-2.2.3.js")
-@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
-@Scripts.Render("~/scripts/Cili/codeBox.js")
 @Styles.Render("~/Content/Elements.css")
 
 <div class="container-fluid" style="background-color:#303030; color:white; margin-top:1px;
  padding-bottom:3px; padding-top:3px">    
         <span style="margin-left:20px">Status:</span> <span id="status">Stopped</span>   
-        <img id="playButton" src='~/Content/Images/play-button.png' width='24' height='24' style='padding-bottom:3px; margin-left:10px; cursor:pointer'/>
-        
+        <img id="playButton" src='~/Content/Images/play-button.png' width='24' height='24' style='padding-bottom:3px; margin-left:10px; cursor:pointer'/>       
 </div>
 
 <div class="container-fluid" style="padding:20px; padding-left:50px; padding-right:50px;">
     <div class="row">
         <div class="col-sm-6" style="padding:5px; height:100%">
             <div class="form-group" style="padding:0; margin:0">
-                <textarea style="min-width: 100%" class="form-control ciliCodeBox" rows="25" id="code" name="code"
-                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                <textarea maxlength="10000" onkeypress="return isNotMax(event)" placeholder="Put your code here..." style="min-width: 100%" class="form-control ciliCodeBox" rows="25" id="codeBox" name="code"
+                          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                          >@Model.Code</textarea>
             </div>
-            <button class="btn ciliButton" style="width:100%">Next example</button>
+            <button onclick="NextExample()" class="btn ciliButton" style="width:100%">Next example</button>
         </div>
         <div class="col-sm-6" style="padding:5px; height:100%">
             <div class="form-group" style="padding:0; margin:0">
-                <div style="height:300px; padding:10px; background-color:#151515">Description: ...</div>
+                <div id="descriptionBox" style="height:300px; padding:10px; background-color:#151515">@Model.Description</div>
                 <textarea style="min-width: 100%; background-color:black" class="form-control ciliConsole" rows="10" id="output" name="output"
                           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                           readonly="readonly"></textarea>
                 <div class="col-sm-8" style="padding:0">
-                    <textarea style="min-width: 100%; background-color:black; height:33px" class="form-control ciliConsole" rows="1" id="input" name="input"
+                    <textarea maxlength="100" onkeypress="return isNotMax(event)" placeholder="Input" style="min-width: 100%; background-color:black; height:33px" class="form-control ciliConsole" rows="1" id="input" name="input"
                         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 </div>
                 <div class="col-sm-2" style="padding:0">
@@ -45,4 +42,4 @@
     </div>
 </div>
 
-@Scripts.Render("~/scripts/Cili/interpreterLogic.js")
+@Scripts.Render("~/bundles/try")

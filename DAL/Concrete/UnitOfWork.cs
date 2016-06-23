@@ -8,7 +8,7 @@ namespace DAL.Concrete
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public DbContext Context { get; private set; }
+        public DbContext Context { get; }
 
         public UnitOfWork(DbContext context)
         {

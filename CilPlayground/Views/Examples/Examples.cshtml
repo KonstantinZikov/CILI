@@ -1,8 +1,38 @@
-﻿
+﻿@model CilPlayground.Models.UserCodeViewModel
 @{
     ViewBag.Title = "Examples";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Examples</h2>
+@Styles.Render("~/Content/Elements.css")
+@Styles.Render("~/Content/examples.css")
 
+
+<div class="container-fluid" style="padding: 5px; padding-left: 50px; padding-right: 50px;">
+    <div class="row">
+        <div class="col-sm-8" style="height: 100%;">
+            <h3 id="fileName">@Model.CurrentDocument.Name</h3>
+            <div class="form-group" style="padding: 0; margin: 0">
+                <textarea placeholder="Put your code here..." style="min-width: 100%" class="form-control ciliCodeBox" rows="20" id="codeBox" name="code"
+                          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                          >@Model.CurrentDocument.Code</textarea>
+                    <textarea placeholder="Description" id="descriptionBox" style="padding-top: 5px; min-width: 100%; background-color: #202020" class="form-control ciliConsole" rows="5" id="output" name="output"
+                              autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                              >@Model.CurrentDocument.Description</textarea>
+            </div>
+        </div>
+        <div class="col-sm-4" style="padding: 5px; height: 100%">
+            <h3>Files</h3>
+            <div class="pre-scrollable" style="min-height: 600px; padding: 10px; background-color: #151515">
+                @foreach (var document in Model.Documents)
+                {
+                    <div class="container-fluid fileLine" style="width: 100%; padding: 5px">
+                        <h5 class="col-sm-12 fileName" onclick="fileButtonClick('@document.Name')">@document.Name</h5>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/examples")
+@Html.Partial("Modals/SaveAs")

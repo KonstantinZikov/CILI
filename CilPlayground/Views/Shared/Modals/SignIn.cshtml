@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body" style="border-style:none">
                 <div class="form-group">
-                    <input id="signInNameInput" type="text" class="form-control input-lg ciliInput" placeholder="Name">
-                    <input id="signInPasswordInput" type="password" class="form-control input-lg ciliInput" placeholder="Password">
+                    <input maxlength="16" onkeypress="return isNotMax(event)" id="signInNameInput" type="text" class="form-control input-lg ciliInput" placeholder="Name">
+                    <input maxlength="32" onkeypress="return isNotMax(event)" id="signInPasswordInput" type="password" class="form-control input-lg ciliInput" placeholder="Password">
                 </div>
             </div>
             <h4 class="text-center" id="signInErrorBox">
@@ -20,4 +20,4 @@
     </div>
 </div>
 
-@Scripts.Render("~/scripts/Cili/modal.signin.js")
+@Scripts.Render("~/bundles/signIn")

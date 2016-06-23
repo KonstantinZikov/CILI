@@ -1,0 +1,15 @@
+﻿.fileLine {
+    margin: 2px;
+    padding: 0;
+    background-color: #101010
+}
+
+.fileName {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+.fileName:hover {
+    background-color: #d3d3d3;
+    color: #101010;        
+}

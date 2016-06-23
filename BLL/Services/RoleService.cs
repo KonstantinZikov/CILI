@@ -14,6 +14,8 @@ namespace BLL.Services
 
         protected override RoleEntity ToBll(DalRole dal)
         {
+            if (dal == null) return null;
+
             return new RoleEntity()
             {
                 Id = dal.Id,
@@ -23,6 +25,8 @@ namespace BLL.Services
 
         protected override DalRole ToDal(RoleEntity bll)
         {
+            if (bll == null) return null;
+
             return new DalRole()
             {
                 Id = bll.Id,
@@ -30,7 +34,7 @@ namespace BLL.Services
             };
         }
 
-        protected override void Check(RoleEntity entity)
+        protected override void Validate(RoleEntity entity)
         {
             if (entity.Id < 0)
                 throw new ServiceException(
@@ -40,6 +44,6 @@ namespace BLL.Services
         }
 
         public RoleEntity Get(string name)
-            => ToBll(repository.GetByPredicate(r => r.Name == name).FirstOrDefault());
+            => ToBll(Repository.GetByPredicate(r => r.Name == name).FirstOrDefault());
     }
 }

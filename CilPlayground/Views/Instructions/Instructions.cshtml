@@ -1,54 +1,67 @@
 ﻿@model List<CilPlayground.Models.InstructionViewModel>
+@if (HttpContext.Current.User.IsInRole("Admin"))
+{
+    @Html.Partial("Modals/Delete")
+}
 @{
     ViewBag.Title = "Istructions";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .instructionRow{
-        margin: 0;
-        margin-bottom:8px;
-    }
-    .instructionCol{
-        padding:15px;
-    }
 
-    .buttonCol{
-        padding:0;
-    }
-
-    .supported{
-        background-color:#005000;
-    }
-
-    .unsupported{
-        background-color:#500000;
-    }
-</style>
-
-
-<div class="container body-content" style="padding:20px; background-color:#303030; margin-top:40px" >
+<div class="container body-content" style="padding: 20px; background-color: #303030; margin-top: 40px">
     <h2>Istructions</h2>
     <h5>This is a list of the instructions of the Common Intermediate Language. The green color indicates the instructions that are supported.</h5>
+    @if(HttpContext.Current.User.IsInRole("Admin"))
+    {
+        <button class="btn ciliButton" id="addButton">Add new</button>
+    }
     <div class="row" id="tableHeader">
-        <div class="col-md-3"><h4>Instruction</h4></div>
-        <div class="col-md-9"><h4>Description</h4></div>
+        <div class="col-md-3"><h4>Instruction</h4>
+        </div>
+        <div class="col-md-9"><h4>Description</h4>
+        </div>
     </div>
-    @for (int i = 0; i < Model.Count; i++)
+    @foreach (var t in Model)
     {
         string sup = "unsupported";
-            if (Model[i].IsSupported)
-            {
-                sup = "supported";
-            }
-        
-        <div class="row instructionRow @sup" data-id="@Model[i].Id">          
+        if (t.IsSupported)
+        {
+            sup = "supported";
+        }
+        <div class="row instructionRow @sup" data-id="@t.Id">
             <div class="col-md-3 instructionCol Name">
-                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model[i].Name</div>       
+                <div style="min-width: 100%; border-style: none; background-color: inherit;">@t.Name</div>
             </div>
             <div class="col-md-9 instructionCol Description">
-                <div style="min-width:100%; border-style:none; background-color:inherit;">@Model[i].Description</div>
+                <div style="min-width: 100%; border-style: none; background-color: inherit;">@t.Description</div>
             </div>
         </div>
     }
-
 </div>
+@if (HttpContext.Current.User.IsInRole("Admin"))
+{
+    <div style="display: none">
+        <div class="row instructionRow supported add instructionRowSample" data-id="0">
+            <div class="col-md-3 instructionCol Name">
+                <textarea style="min-width: 100%; padding: 0; border-style: none; background-color: inherit;">Name</textarea>
+            </div>
+            <div class="col-md-8 instructionCol Description">
+                <textarea style="min-width: 100%; padding: 0; border-style: none; background-color: inherit;">Descritpion</textarea>
+            </div>
+            <div class="col-md-1 instructionButtonCol">
+                <button class="btn ciliButton saveButton">Create</button>
+                <button class="btn ciliButton cancelButton">Cancel</button>
+                <button class="btn ciliButton supportedButton">Supported</button>
+            </div>
+        </div>
+
+        <div class="col-md-1 instructionButtonCol buttonColSample">
+            <button class="btn ciliButton saveButton">Save</button>
+            <button class="btn ciliButton cancelButton">Cancel</button>
+            <button class="btn ciliButton deleteButton">Delete</button>
+            <button class="btn ciliButton supportedButton">Supported</button>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/instructions")
+}

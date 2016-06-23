@@ -59,10 +59,7 @@
                         location.reload();
                     }
                     else {
-                        message = "Server error:("
-                        if (result != undefined)
-                            message = result.answer;
-                        $("#signUpErrorBox").text(message);
+                        $("#signUpErrorBox").text(result.answer);
                     }
                 }
             });

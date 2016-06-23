@@ -1,0 +1,21 @@
+﻿<div class="modal fade" id="renameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="color:black">
+        <div class="modal-content ciliModal">
+            <div class="modal-header" style="background-color:#3B1255; border-style:none">
+                <button type="button" class="close ciliCloseButton" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Rename</h4>
+            </div>
+            <div class="modal-body" style="border-style: none">
+                <div class="form-group">
+                    <input maxlength="20" onkeypress="return isNotMax(event)" id="renameFileName" type="text" class="form-control input-lg ciliInput" placeholder="New name">
+                </div>
+            </div>
+            <h4 class="text-center" id="renameErrorBox"></h4>
+            <div class="modal-footer" style="background-color:#101010; border-style:none; padding:0">
+                <button type="button" id="renameButton" class="btn ciliButton" style="font-size:20px; width:100%">Rename</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/rename")

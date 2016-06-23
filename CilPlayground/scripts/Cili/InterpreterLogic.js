@@ -26,7 +26,7 @@ function ()
         $("#playButton").attr("src", "/Content/Images/stop-button.png");
         $("#status").text("Running");
         $("#status").css({ "color": "green" });
-        var code = $("#code").val();
+        var code = $("#codeBox").val();
         $.ajax({
             url: "/Execute",
             data: "code=" + code,

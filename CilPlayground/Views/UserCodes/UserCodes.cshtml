@@ -1,8 +1,60 @@
-﻿
+﻿@model CilPlayground.Models.UserCodeViewModel
 @{
-    ViewBag.Title = "UserCodes";
+    ViewBag.Title = "My Sources";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>UserCodes</h2>
+@Styles.Render("~/Content/Elements.css")
+@Styles.Render("~/Content/userCodes.css")
 
+<div class="container-fluid" style="padding: 5px; padding-left: 50px; padding-right: 50px;">
+    <div class="row">
+        <div class="col-sm-8" style="height: 100%;">
+            <h3 id="fileName">@Model.CurrentDocument.Name</h3>
+            <div class="form-group" style="padding: 0; margin: 0">
+                <textarea maxlength="10000" onkeypress="return isNotMax(event)" placeholder="Put your code here..." style="min-width: 100%" class="form-control ciliCodeBox" rows="20" id="codeBox" name="code"
+                          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">@Model.CurrentDocument.Code</textarea>
+                <textarea maxlength="1000" onkeypress="return isNotMax(event)" placeholder="Description" id="descriptionBox" style="padding-top: 5px; min-width: 100%; background-color: #202020" class="form-control ciliConsole" rows="5" id="output" name="output"
+                          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                          >@Model.CurrentDocument.Description</textarea>
+            </div>
+            <div class="container-fluid" style="width: 100%; padding: 0">
+                <button onclick="newFile()" class="btn ciliButton col-sm-4">New File</button>
+                <button onclick="saveButtonClick()" class="btn ciliButton col-sm-4">Save as</button>
+                @if (HttpContext.Current.User.IsInRole("Admin"))
+                {
+                    if (Model.CurrentDocument.IsExample)
+                    {
+                        <button id="isExampleButton" onclick="isExampleToggle()" class="btn col-sm-4 ciliButton isExample">IsExample</button>
+                    }
+                    else
+                    {
+                        <button id="isExampleButton" onclick="isExampleToggle()" class="btn col-sm-4 ciliButton isNotExample">IsExample</button>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-sm-4" style="padding: 5px; height: 100%">
+            <h3>Files</h3>
+            <div class="pre-scrollable" style="min-height: 600px; padding: 10px; background-color: #151515">
+                @foreach (var document in Model.Documents)
+                {
+                    <div class="container-fluid fileLine" style="width: 100%; padding: 5px">
+                        <h5 class="col-sm-7 fileName" onclick="fileButtonClick('@document.Name')">@document.Name</h5>
+                        <img class="imageButton" src="~/Content/Images/delete-button.png" onclick="deleteFile('@document.Name')" alt="delete"/>
+                        <img class="imageButton" src="~/Content/Images/rename-button.png" onclick="renameButtonClick('@document.Name')" alt="rename"/>
+                        @if (@document.IsExample)
+                        {
+                            <span style="color: #009000">Example</span>                           
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/userCodes")
+@Html.Partial("Modals/SaveAs")
+@Html.Partial("Modals/Delete")
+@Html.Partial("Modals/Rename")

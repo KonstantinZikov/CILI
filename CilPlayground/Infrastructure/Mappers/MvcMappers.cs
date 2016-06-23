@@ -1,4 +1,5 @@
-﻿using BLL.Interface.Entities;
+﻿using System;
+using BLL.Interface.Entities;
 using CilPlayground.Models;
 
 namespace CilPlayground.Infrastructure.Mappers
@@ -69,5 +70,34 @@ namespace CilPlayground.Infrastructure.Mappers
                 Name = model.Name
             };
         }
+
+        public static DocumentViewModel ToModel(this DocumentEntity entity)
+        {
+            return new DocumentViewModel()
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                UserId = entity.UserId,
+                LastChangeTime = entity.LastChangeTime,
+                Code = entity.Code,
+                Description = entity.Description,
+                IsExample = entity.IsExample
+            };
+        }
+
+        public static DocumentEntity ToBll(this DocumentViewModel model)
+        {
+            return new DocumentEntity()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                UserId = model.UserId,
+                LastChangeTime = model.LastChangeTime,
+                Code = model.Code,
+                Description = model.Description,
+                IsExample = model.IsExample
+            };
+        }
+
     }
 }

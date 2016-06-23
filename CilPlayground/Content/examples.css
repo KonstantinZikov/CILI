@@ -1,0 +1,43 @@
+﻿.isExample {
+    background-color: #006400;
+}
+
+.isExample:hover {
+    background-color: #006400;
+}
+
+.isNotExample {
+    background-color: #b22222;
+}
+
+.isNotExample:hover {
+    background-color: #b22222;
+}
+
+.imageButton {
+    padding: 5px;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+}
+
+.imageButton:hover {
+    background-color: #d3d3d3;
+}
+
+.fileLine {
+    margin: 2px;
+    padding: 0;
+    background-color: #101010;
+}
+
+.fileName {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.fileName:hover {
+    background-color: #d3d3d3;
+    color: #101010;
+}

@@ -32,7 +32,7 @@ namespace DAL.Concrete
         protected abstract TOrmType ToOrm(TDalType entity);
         protected abstract void Update(TDalType dal, TOrmType orm);
 
-        private readonly DbContext _context;
+        protected readonly DbContext _context;
 
         protected BaseRepositpry(DbContext context)
         {

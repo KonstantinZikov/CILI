@@ -39,7 +39,7 @@ namespace CilPlayground.Controllers
             {
                 return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
             }
-            catch (UserException ex)
+            catch (ValidationException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }
@@ -67,7 +67,7 @@ namespace CilPlayground.Controllers
             {
                 return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
             }
-            catch (UserException ex)
+            catch (ValidationException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }

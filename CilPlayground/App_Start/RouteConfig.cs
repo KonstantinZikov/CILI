@@ -13,16 +13,26 @@ namespace CilPlayground
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //Home
+
             routes.MapRoute(
                 name: "Home",
                 url: "",
                 defaults: new { controller = "Home", action = "Index" }
             );
 
+            //Try
+
             routes.MapRoute(
                 name: "Try",
                 url: "Try",
                 defaults: new { controller = "Try", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "TryNextExample",
+                url: "Try/NextExample",
+                defaults: new { controller = "Try", action = "NextExample" }
             );
 
             //Instructions
@@ -106,16 +116,63 @@ namespace CilPlayground
             );
 
             routes.MapRoute(
+                name: "ExamplesGetFile",
+                url: "Examples/GetFile",
+                defaults: new { controller = "Examples", action = "GetFile" }
+            );
+
+            //Interpreter
+
+            routes.MapRoute(
                 name: "Interpreter",
                 url: "Interpreter",
                 defaults: new { controller = "Interpreter", action = "Index" }
             );
 
             routes.MapRoute(
+                name: "InterpreterDocument",
+                url: "Interpreter/Document{fileName}",
+                defaults: new { controller = "Interpreter", action = "Document" }
+            );
+
+            // User codes
+            routes.MapRoute(
                 name: "UserCodes",
                 url: "UserCodes",
                 defaults: new { controller = "UserCodes", action = "Index" }
             );
+
+            routes.MapRoute(
+                name: "UserCodesSave",
+                url: "UserCodes/Save",
+                defaults: new { controller = "UserCodes", action = "Save" }
+            );
+
+            routes.MapRoute(
+                name: "UserCodesGetFile",
+                url: "UserCodes/GetFile",
+                defaults: new { controller = "UserCodes", action = "GetFile" }
+            );
+
+            routes.MapRoute(
+                name: "UserCodesDocument",
+                url: "UserCodes/Document/{fileName}",
+                defaults: new { controller = "UserCodes", action = "Document" }
+            );
+
+            routes.MapRoute(
+                name: "UserCodesDelete",
+                url: "UserCodes/Delete",
+                defaults: new { controller = "UserCodes", action = "Delete" }
+            );
+
+            routes.MapRoute(
+                name: "UserCodesRename",
+                url: "UserCodes/Rename",
+                defaults: new { controller = "UserCodes", action = "Rename" }
+            );
+
+            //Execute 
 
             routes.MapRoute(
                 name: "Execute",

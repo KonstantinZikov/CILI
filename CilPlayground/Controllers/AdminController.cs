@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace CilPlayground.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         public AdminController(IUserService userService, IRoleService roleService)
@@ -44,7 +44,7 @@ namespace CilPlayground.Controllers
             {
                 return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
             }
-            catch (UserException ex)
+            catch (ValidationException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }
@@ -62,7 +62,7 @@ namespace CilPlayground.Controllers
             {
                 return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
             }
-            catch (UserException ex)
+            catch (ValidationException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }
@@ -80,7 +80,7 @@ namespace CilPlayground.Controllers
             {
                 return Json(new { answer = "INTERNAL ERROR: " + ex.Message, success = false });
             }
-            catch (UserException ex)
+            catch (ValidationException ex)
             {
                 return Json(new { answer = ex.Message, success = false });
             }

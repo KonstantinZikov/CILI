@@ -78,3 +78,12 @@ D:\Projects\СilPlayground\CilPlayground\bin\EntityFramework.SqlServer.dll
 D:\Projects\СilPlayground\CilPlayground\bin\EntityFramework.SqlServer.xml
 D:\Projects\СilPlayground\CilPlayground\bin\System.Web.Providers.dll
 D:\Projects\СilPlayground\CilPlayground\bin\System.Web.Providers.xml
+D:\Projects\СilPlayground\CilPlayground\bin\Common.Logging.Core.dll
+D:\Projects\СilPlayground\CilPlayground\bin\Common.Logging.dll
+D:\Projects\СilPlayground\CilPlayground\bin\Quartz.dll
+D:\Projects\СilPlayground\CilPlayground\bin\Common.Logging.pdb
+D:\Projects\СilPlayground\CilPlayground\bin\Common.Logging.xml
+D:\Projects\СilPlayground\CilPlayground\bin\Common.Logging.Core.pdb
+D:\Projects\СilPlayground\CilPlayground\bin\Common.Logging.Core.xml
+D:\Projects\СilPlayground\CilPlayground\bin\Quartz.pdb
+D:\Projects\СilPlayground\CilPlayground\bin\Quartz.xml

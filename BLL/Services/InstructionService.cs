@@ -33,7 +33,7 @@ namespace BLL.Services
             };
         }
 
-        protected override void Check(InstructionEntity entity)
+        protected override void Validate(InstructionEntity entity)
         {
             if (entity.Id < 0)
                 throw new ServiceException(

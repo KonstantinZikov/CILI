@@ -1,5 +1,5 @@
 ﻿
-$(document).delegate('#code', 'keydown', function (e) {
+$(document).delegate('#codeBox', 'keydown', function (e) {
     var keyCode = e.keyCode || e.which;
 
     if (keyCode == 9) {
@@ -16,6 +16,6 @@ $(document).delegate('#code', 'keydown', function (e) {
     }
 });
 
-$(document).delegate('#code','input', function () {
+$(document).delegate('#codeBox','input', function () {
     $(this).val($(this).val().replace(/\t/g, "    "));
 });

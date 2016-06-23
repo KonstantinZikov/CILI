@@ -89,3 +89,38 @@
   display: flex;
   flex-direction: column;
 }
+
+.adminRow {       
+    margin: 0px;
+    margin-bottom: 8px;
+}
+
+.adminCol {
+    background-color:#101010;
+    margin:3px;
+    padding: 15px;
+}
+
+.adminButtonCol {
+    margin:3px;
+    padding: 0;
+}
+
+.instructionRow{
+    margin: 0;
+    margin-bottom:8px;
+}
+.instructionCol{
+    padding:15px;
+}
+
+.instructionButtonCol{
+    padding:0;
+}
+.supported{
+    background-color:#005000;
+}
+
+.unsupported{
+    background-color:#500000;
+}
